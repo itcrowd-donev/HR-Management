@@ -3,25 +3,28 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/bootstrap-v3.0.3.min.css" rel="stylesheet" />
 <link href="~/Content/css/bootstrap-year-calendar.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
 
 <h2>Vacations</h2>
+
 <style>
     .calendar {
         overflow-y: hidden;
     }
 </style>
+
+
 <div class="col-md-2 col-lg-2 col-sm-12 pull-left">
     <div class="table-responsive m-t-40">
         <h4>Employees</h4>
         <table id="" class="display" cellspacing="0" width="100%">
-
             <tr>
                 <td>
-                    <div class="checkbox radio-margin">
+                    <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="">
+                            <input type="checkbox" value="" data-id="1">
                             <span>Marjan Donev</span>
                         </label>
                     </div>
@@ -29,28 +32,125 @@
             </tr>
             <tr>
                 <td>
-                    <div class="checkbox radio-margin">
+                    <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="">
-                            <span>Marjan Donev</span>
+                            <input type="checkbox" value="" data-id="2">
+                            <span>Blazo Petkovski</span>
                         </label>
                     </div>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="checkbox radio-margin">
+                    <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="">
-                            <span>Marjan Donev</span>
+                            <input type="checkbox" value="" data-id="3">
+                            <span>Mario Sazdovski</span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" data-id="4">
+                            <span>Krste Mijalkovski</span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" data-id="5">
+                            <span>Marija Mitrova</span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" data-id="6">
+                            <span>Goran Pereski</span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" data-id="7">
+                            <span>Risto Andov</span>
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="" data-id="8">
+                            <span>Valerija Josifova</span>
                         </label>
                     </div>
                 </td>
             </tr>
         </table>
     </div>
+
 </div>
 <div class="col-md-10 col-lg-10 col-sm-12 pull-right">
     <div id="calendar" class="calendar col-10"></div>
+
 </div>
 
+
+<div id="event-modal-update" class="modal modal-fade" role="dialog" style="padding-right: 17px;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="event-index" value="1">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="min-date" class="col-sm-4 control-label">Name</label>
+                        <div class="col-sm-7">
+                            <input name="event-name" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="min-date" class="col-sm-4 control-label">Description</label>
+                        <div class="col-sm-7">
+                            <input name="event-description" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="min-date" class="col-sm-4 control-label">Dates</label>
+                        <div class="col-sm-7">
+                            <div class="input-group input-daterange" data-provide="datepicker">
+                                <input name="event-start-date" type="text" class="form-control" value="01/01/2018">
+                                <span class="input-group-addon">to</span>
+                                <input name="event-end-date" type="text" class="form-control" value="01/01/2018">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-event">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

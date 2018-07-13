@@ -9,7 +9,7 @@ namespace HumanResources.Controllers.Members
 {
     public class EmployeesController : Controller
     {
-        // GET: Employees
+
         public ActionResult Index()
         {
             Session["Employees"] = EmployeesData();
@@ -64,12 +64,10 @@ namespace HumanResources.Controllers.Members
         }
 
 
-
         public ActionResult Edit()
         {
             return View();
         }
-
 
         [HttpPost]
         public ActionResult Edit(Employees Employee)

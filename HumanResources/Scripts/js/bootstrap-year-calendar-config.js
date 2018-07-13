@@ -1,51 +1,72 @@
-﻿$(document).ready()
-{
+﻿var data = [];
 
+$(document).ready()
+{
+    datepicker();
 }
 
-var data = [];
-function getEvents() {
-
-    $.ajax({
-        type: "GET",
-        url: "/Vacations/GetVacations",
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            for (var i = 0; i < response.length; i++) {
-                var syear = response[i].startDate.getFullYear();
-                var sday = response[i].startDate.getDate();
-                var smonth = response[i].startDate.getMonth();
-
-                var eyear = response[i].endDate.getFullYear();
-                var eday = response[i].endDate.getDate();
-                var emonth = response[i].endDate.getMonth();
-
-                dataSource[i].startDate = new Date(syear, smonth, sday);
-
-                dataSource[i].endDate = new Date(eyear, emonth, eday);
-
-                data.push(response[i]);
-            }
-            //var events = JSON.stringify(response);
-            //data = events;
-        },
-        error: function (response) {
-            alert("Error:" + response);
-        }
+//Datepicker Date Format
+function datepicker() {
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy'
     });
 }
 
 
-function editEvent(event) {
-    $('#event-modal input[name="event-index"]').val(event ? event.id : '');
-    $('#event-modal input[name="event-name"]').val(event ? event.name : '');
-    $('#event-modal input[name="event-description"]').val(event ? event.description : '');
-    $('#event-modal input[name="event-start-date"]').datepicker('update', event ? event.startDate : '');
-    $('#event-modal input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
-    $('#event-modal').modal();
+// (Extra) TODO: Get events for selected employees - url: /Vacations/Get; parameters {id}
+function getEventById() {
+
 }
 
+//Get All Events
+function getEvents() {
+
+    $.ajax({
+        type: "GET",
+        url: "/Vacations/List",
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            for (var i = 0; i < response.length; i++) {
+                var aa = response[i].startDate;
+                var startDateSplit = response[i].startDate.split("/");
+                var endDateSplit = response[i].endDate.split("/");
+
+                var syear = startDateSplit[2];
+                var sday = startDateSplit[0];
+                var smonth = startDateSplit[1];
+
+                var eyear = endDateSplit[2];
+                var eday = endDateSplit[0];
+                var emonth = endDateSplit[1];
+
+                response[i].startDate = new Date(syear, smonth, sday);
+
+                response[i].endDate = new Date(eyear, emonth, eday);
+
+                data.push(response[i]);
+            }
+        },
+        error: function (response) {
+            //alert("Error:" + response);
+        }
+    });
+}
+
+//Create & Edit
+function editEvent(event) {
+    $('#event-modal-update input[name="event-index"]').val(event ? event.id : '');
+    $('#event-modal-update input[name="event-name"]').val(event ? event.name : '');
+    $('#event-modal-update input[name="event-description"]').val(event ? event.description : '');
+    $('#event-modal-update input[name="event-start-date"]').datepicker('update', event ? event.startDate : '');
+    $('#event-modal-update input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
+
+    $('#event-modal-update').modal('show', { backdrop: 'static', keyboard: false });
+
+}
+
+// TODO: Add post call to server - url: /Vacations/Delete; parameters {id}
+//Delete Event
 function deleteEvent(event) {
     var dataSource = $('#calendar').data('calendar').getDataSource();
 
@@ -59,13 +80,15 @@ function deleteEvent(event) {
     $('#calendar').data('calendar').setDataSource(dataSource);
 }
 
+// TODO: Add post call to server - url: /Vacations/Save; parameters {id,name,description,startDate,endDate}
+//Save created or edited event
 function saveEvent() {
     var event = {
-        id: $('#event-modal input[name="event-index"]').val(),
-        name: $('#event-modal input[name="event-name"]').val(),
-        description: $('#event-modal input[name="event-description"]').val(),
-        startDate: $('#event-modal input[name="event-start-date"]').datepicker('getDate'),
-        endDate: $('#event-modal input[name="event-end-date"]').datepicker('getDate')
+        id: $('#event-modal-update input[name="event-index"]').val(),
+        name: $('#event-modal-update input[name="event-name"]').val(),
+        description: $('#event-modal-update input[name="event-description"]').val(),
+        startDate: $('#event-modal-update input[name="event-start-date"]').datepicker('getDate'),
+        endDate: $('#event-modal-update input[name="event-end-date"]').datepicker('getDate')
     }
 
     var dataSource = $('#calendar').data('calendar').getDataSource();
@@ -98,6 +121,7 @@ function saveEvent() {
     $('#event-modal').modal('hide');
 }
 
+//Initialize Calendar
 $(function () {
 
     var currentYear = new Date().getFullYear();
@@ -153,27 +177,9 @@ $(function () {
     $('#save-event').click(function () {
         saveEvent();
     });
-    //$('#calendar').data('calendar').setDataSource(data);
-
-    var dat1a = [
-        {
-            id: 9,
-            name: 'LA Tech Summit',
-            description: 'Los Angeles, CA',
-            startDate: new Date(2018, 10, 17),
-            endDate: new Date(2018, 10, 17)
-        },
-        {
-            id: 10,
-            name: 'LA Tech Summit',
-            description: 'Los Angeles, CA',
-            startDate: new Date(2018, 10, 17),
-            endDate: new Date(2018, 10, 20)
-        },
-    ];
-    var aaa = data;
     getEvents();
-    $('#calendar').data('calendar').setDataSource(aaa);
-    var dataSource = $('#calendar').data('calendar').getDataSource();
-    //getEvents();
+    if (data != null && data.length != 0) {
+        $('#calendar').data('calendar').setDataSource(data);
+    }
+
 });
