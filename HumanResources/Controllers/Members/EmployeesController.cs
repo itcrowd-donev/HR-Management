@@ -22,7 +22,7 @@ namespace HumanResources.Controllers.Members
 
         public ActionResult List()
         {
-            var employees = Session["Employees"] as List<Employees>;
+            var employees = EmployeesData();
             return Json(employees, JsonRequestBehavior.AllowGet);
         }
 
@@ -46,7 +46,6 @@ namespace HumanResources.Controllers.Members
         {
             var employeesList = Session["Employees"] as List<Employees>;
 
-
             var emp = new Employees();
             emp.Id = employeesList.LastOrDefault().Id + 1;
             emp.Name = Employee.Name;
@@ -59,12 +58,12 @@ namespace HumanResources.Controllers.Members
             employeesList.Add(emp);
             Session["Employees"] = employeesList;
 
-            //return Json(emp.Id, JsonRequestBehavior.AllowGet);
-            return RedirectToAction("Index");
+            //return Json(emp.Id, JsonRequestBehavior.AllowGet);      //Comment this
+            return RedirectToAction("Index"); //Index instead of Create
         }
 
 
-        public ActionResult Edit()
+        public ActionResult Edit(int id)
         {
             return View();
         }

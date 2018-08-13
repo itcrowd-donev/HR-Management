@@ -1,7 +1,11 @@
 ﻿var data = [];
+var list = new Array();
+var array = [];
 
 $(document).ready()
 {
+    getData();
+    getEventById();
     datepicker();
 }
 
@@ -12,10 +16,80 @@ function datepicker() {
     });
 }
 
+function getData() {
 
-// (Extra) TODO: Get events for selected employees - url: /Vacations/Get; parameters {id}
+    $.ajax({
+
+        url: '/Employees/List',
+        type: 'GET',
+        async: false,
+        success: function (response) {
+
+            for (var i = 0; i < response.length; i++) {
+                var string = response[i].Name;
+                var Id = response[i].Id;
+                $("#employees").append("<tr><td><div class='checkbox'><label><input class='employee' type='checkbox' value='' data-id='" + Id + "'><span>" + string + "</span></label></div></td></tr>");
+            }
+        },
+        error: function (error) {
+
+            alert("Error: " + error.error);
+        }
+    });
+}
+
+// (Extra) IN PROGRESS: Get events for selected employees - url: /Vacations/Get; parameters {id} 
+
 function getEventById() {
+    $(".employee").on("click", function () {
 
+        var id = $(this).attr("data-id");
+
+        $('#calendar').data('calendar').setDataSource()
+
+        if ($(this).prop('checked')) {
+            $.ajax({
+                url: '/Vacations/Get/' + id,
+                type: 'GET',
+                async: false,
+                success: function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        var startDateSplit = response[i].startDate.split("/");
+                        var endDateSplit = response[i].endDate.split("/");
+
+                        var syear = startDateSplit[2];
+                        var sday = startDateSplit[0];
+                        var smonth = startDateSplit[1];
+
+                        var eyear = endDateSplit[2];
+                        var eday = endDateSplit[0];
+                        var emonth = endDateSplit[1];
+                        data.push({
+                            id: response[i].id,
+                            name: response[i].name,
+                            description: response[i].description,
+                            startDate: new Date(syear, smonth, sday),
+                            endDate: new Date(eyear, emonth, eday),
+                        });
+                    }
+                },
+                error: function (error) {
+
+                    alert("Error: " + error.error);
+                }
+            });
+        }
+        else {
+            data = $.grep(data, function (e) {
+                return e.id != id;
+            });
+        }
+
+        //}
+        $('#calendar').data('calendar').setDataSource(data);
+    });
+
+    return list;
 }
 
 //Get All Events
@@ -78,9 +152,11 @@ function deleteEvent(event) {
     }
 
     $('#calendar').data('calendar').setDataSource(dataSource);
+
+    //Ajax call
 }
 
-// TODO: Add post call to server - url: /Vacations/Save; parameters {id,name,description,startDate,endDate}
+// DONE: Add post call to server - url: /Vacations/Save; parameters {id,name,description,startDate,endDate}
 //Save created or edited event
 function saveEvent() {
     var event = {
@@ -119,6 +195,29 @@ function saveEvent() {
 
     $('#calendar').data('calendar').setDataSource(dataSource);
     $('#event-modal').modal('hide');
+
+    //Post call
+    $.ajax({
+
+        type: 'post',
+        url: '/Vacations/Save',
+        data: {
+            id: event.id,
+            name: event.name,
+            description: event.description,
+            startDate: event.startDate,
+            endDate: event.endDate
+        },
+        success: function (response , status) {
+
+            console.log("status: Successful");
+        },
+        error: function (error, status) {
+
+            alert("Error: " + error.error);
+            console.log(status.status);
+        }
+    });
 }
 
 //Initialize Calendar
@@ -171,13 +270,14 @@ $(function () {
         dayContextMenu: function (e) {
             $(e.element).popover('hide');
         },
-        dataSource: []
+        dataSource: data
     });
 
     $('#save-event').click(function () {
         saveEvent();
     });
-    getEvents();
+    //getEvents();
+    //getEventById();
     if (data != null && data.length != 0) {
         $('#calendar').data('calendar').setDataSource(data);
     }

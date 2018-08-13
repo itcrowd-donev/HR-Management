@@ -3,6 +3,19 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Create</h2>
+<div class="row">
+    <div class="col-sm-6 col-xs-10 col-lg-3 col-md-3">
+        <form id="createForm" class="form-inline" method="post" action="/Employees/Create">
+            <label style="vertical-align: central" for="name">Name</label><input name="Name" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="name" placeholder="ex John Smith" required>
+            <label style="vertical-align: central" for="pos">Position</label><input name="Position" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="pos" placeholder="ex System Administrator" required>
+            <label style="vertical-align: central" for="office">Office</label><input name="Office" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="office" placeholder="ex London" required>
+            <label style="vertical-align: central" for="age">Age</label><input name="Age" style="width: 100%; margin-bottom: 20px" class="form-control" type="number" id="age" placeholder="ex 34" required min="18">
+            <label style="vertical-align: central" for="date">Start date</label><input name="StartDate" style="width: 100%; margin-bottom: 20px" class="form-control" type="date" id="date" required>
+            <label style="vertical-align: central" for="salary">Salary</label><input name="Salary" style="width: 100%; margin-bottom: 20px" class="form-control" type="number" step="1000" id="salary" placeholder="ex 130 000" required>
+            <input class="btn btn-success" id="subMit" type="submit" value="Create">
+        </form>
+    </div>
+</div>
 
+@Scripts.Render("~/Scripts/js/lib/jquery/jquery.min.js")

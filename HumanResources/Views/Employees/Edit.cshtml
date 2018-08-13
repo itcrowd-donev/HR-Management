@@ -6,3 +6,54 @@
 
 <h2>Edit</h2>
 
+<div class="row">
+    <div class="col-sm-6 col-xs-10 col-lg-3 col-md-3">
+        <form class="form-inline" id="myForm" method="post" action="/Employees/Edit">
+            <label style="vertical-align: central" for="name">Name</label><input name="Name" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="name" placeholder="ex John Smith" required>
+            <label style="vertical-align: central" for="pos">Position</label><input name="Position" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="pos" placeholder="ex System Administrator" required>
+            <label style="vertical-align: central" for="office">Office</label><input name="Office" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="office" placeholder="ex London" required>
+            <label style="vertical-align: central" for="age">Age</label><input name="Age" style="width: 100%; margin-bottom: 20px" class="form-control" type="number" id="age" placeholder="ex 34" required min="18">
+            <label style="vertical-align: central" for="date">Start date</label><input name="StartDate" style="width: 100%; margin-bottom: 20px" class="form-control" type="text" id="date" required>
+            <label style="vertical-align: central" for="salary">Salary</label><input name="Salary" style="width: 100%; margin-bottom: 20px" class="form-control" type="number" step="1000" id="salary" placeholder="ex 130 000" required>
+            <input class="btn btn-success" id="subMit" type="submit" value="Save">
+        </form>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/js/lib/jquery/jquery.min.js")
+
+<script type="text/javascript">
+
+    //TODO AJAX call
+    var url = window.location.pathname;
+    var IDvalue = url.substr(16, 30);
+
+    $(document).ready(function () {
+
+        getData();  //fill the form
+
+    });
+
+    function getData() {
+
+        $.ajax({
+
+            url: "/Employees/Get/" + IDvalue.trim(),
+            type: "GET",
+            //dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#name").val(data[0].Name);
+                $("#pos").val(data[0].Position);
+                $("#office").val(data[0].Office);
+                $("#age").val(data[0].Age);
+                $("#date").val(data[0].StartDate);
+                $("#salary").val(data[0].Salary);
+            },
+            error: function (response) {
+                alert("Error: " + response.error);
+                window.location.href = "/Employees"     //Fill the session var first
+            }
+        });
+    }
+</script>

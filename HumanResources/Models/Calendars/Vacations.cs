@@ -12,5 +12,6 @@ namespace HumanResources.Models.Calendars
         public string description { get; set; }
         public string startDate { get; set; }
         public string endDate { get; set; }
+        public int employeeId { get; set; }
     }
 }

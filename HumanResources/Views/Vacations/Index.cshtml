@@ -15,91 +15,11 @@
     }
 </style>
 
-
 <div class="col-md-2 col-lg-2 col-sm-12 pull-left">
     <div class="table-responsive m-t-40">
         <h4>Employees</h4>
-        <table id="" class="display" cellspacing="0" width="100%">
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="1">
-                            <span>Marjan Donev</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="2">
-                            <span>Blazo Petkovski</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="3">
-                            <span>Mario Sazdovski</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="4">
-                            <span>Krste Mijalkovski</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="5">
-                            <span>Marija Mitrova</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="6">
-                            <span>Goran Pereski</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="7">
-                            <span>Risto Andov</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" data-id="8">
-                            <span>Valerija Josifova</span>
-                        </label>
-                    </div>
-                </td>
-            </tr>
+        <table id="employees" class="display" cellspacing="0">
+            <!-- TODO dynamically list employees -->
         </table>
     </div>
 
@@ -108,7 +28,6 @@
     <div id="calendar" class="calendar col-10"></div>
 
 </div>
-
 
 <div id="event-modal-update" class="modal modal-fade" role="dialog" style="padding-right: 17px;" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog">
@@ -154,3 +73,6 @@
         </div>
     </div>
 </div>
+
+@Scripts.Render("~/Scripts/js/lib/jquery/jquery.min.js")
+
